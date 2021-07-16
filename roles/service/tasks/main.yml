@@ -1,0 +1,20 @@
+---
+########################################
+# Deploy the itzg/minecraft-server container to the swarm
+- name: Deploy Minecraft service
+  docker_swarm_service:
+    name: minecraft-service
+    hostname: minecraft
+    image: itzg/minecraft-server
+    networks: minecraft-encrypted-overlay
+    env:
+      EULA: "TRUE"
+      MEMORY: 3G
+      OPS: "deb8sa"
+      TYPE: "FABRIC"
+      FABRIC_INSTALLER_VERSION: "0.7.4"
+      VERSION: "1.17"
+    publish:
+      - { published_port: 25565, target_port: 25565, protocol: tcp }
+    mounts:
+      - { source: /opt/minecraft, target: /data, type: bind }

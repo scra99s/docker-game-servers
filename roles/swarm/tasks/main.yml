@@ -1,0 +1,30 @@
+---
+########################################
+# Start and enable the docker daemon
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+########################################
+# Initialise a default swarm
+- name: Initialise a new swarm
+  docker_swarm:
+    state: present
+
+########################################
+# Remove all services
+- name: Remove minecraft service if present
+  docker_swarm_service:
+    name: minecraft-service
+    state: absent
+
+########################################
+# Create swarm network for minecraft
+- name: Create a network with options
+  docker_network:
+    name: minecraft-encrypted-overlay
+    driver: overlay
+    driver_options:
+      encrypted: true
