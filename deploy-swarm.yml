@@ -1,0 +1,21 @@
+---
+########################################
+# Initialisation script for the seeding process
+- hosts: game_server
+
+  # Stops gathering machine variables, allows for faster execution.
+  gather_facts: false
+
+  become: true
+  become_method: sudo
+  become_user: root
+
+  roles:
+    - role: configuration
+      when: 
+    - role: swarm
+      when: 
+    - role: minecraft-service
+      when: 
+    - role: battlefield-service
+      when: 

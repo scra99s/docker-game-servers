@@ -1,0 +1,18 @@
+---
+########################################
+# Deploy the johnodon/bf2 container to the swarm
+- name: Deploy Battlefieled 2 service
+  docker_swarm_service:
+    name: battlefieled2-service
+    hostname: battlefieled2
+    image: bf2:latest
+    networks: GamingOverlay
+    publish:
+      - { published_port: "80", target_port: "80", protocol: tcp }
+      - { published_port: "4711", target_port: "4711", protocol: tcp }
+      - { published_port: "4712", target_port: "4712", protocol: tcp }
+      - { published_port: "16567", target_port: "16567", protocol: udp }
+      - { published_port: "27901", target_port: "27901", protocol: udp }
+      - { published_port: "29900", target_port: "29900", protocol: udp }
+    mounts:
+      - { source: /opt/bf2, target: /home/bf2/srv, type: bind }

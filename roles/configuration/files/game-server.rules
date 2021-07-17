@@ -1,0 +1,19 @@
+[AdminSSSHAccess]
+title=AdminSSSHAccess
+description=admin-ssh-access ports
+ports=22/tcp
+
+[AdminCockpitAccess]
+title=AdminCockpitAccess
+description=admin-cockpit-access ports
+ports=9090/tcp
+
+[MinecarftService]
+title=MinecarftService
+description=Minecarft Service ports
+ports=25565/tcp|88,464/tcp|88,464/udp
+
+[Battlefield2Service]
+title=Battlefield2Service
+description=Battlefield 2 service ports
+ports=80,4711,4712/tcp|16567,27901,29900/udp

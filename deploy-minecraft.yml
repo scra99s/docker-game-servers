@@ -11,6 +11,7 @@
   become_user: root
 
   roles:
-    - system
-    - swarm
-    - service
+    #- configuration
+    #- swarm
+    #- minecraft-service
+    - battlefield2-service

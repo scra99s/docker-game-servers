@@ -1,5 +1,14 @@
 ---
 ########################################
+# Install required dependencies
+- name: Install swarm dependencies
+  package:
+    name:
+      - docker.io
+      - python3-docker
+    state: present
+  
+########################################
 # Start and enable the docker daemon
 - name: Start Docker service
   service:
@@ -15,16 +24,19 @@
 
 ########################################
 # Remove all services
-- name: Remove minecraft service if present
+- name: Remove services if present
   docker_swarm_service:
-    name: minecraft-service
+    name: "{{ item }}"
     state: absent
+  loop:
+    - minecraft-service
+    - battlefield2-service
 
 ########################################
 # Create swarm network for minecraft
 - name: Create a network with options
   docker_network:
-    name: minecraft-encrypted-overlay
+    name: GamingOverlay
     driver: overlay
     driver_options:
       encrypted: true

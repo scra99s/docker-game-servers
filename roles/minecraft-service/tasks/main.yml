@@ -6,7 +6,7 @@
     name: minecraft-service
     hostname: minecraft
     image: itzg/minecraft-server
-    networks: minecraft-encrypted-overlay
+    networks: GamingOverlay
     env:
       EULA: "TRUE"
       MEMORY: 3G

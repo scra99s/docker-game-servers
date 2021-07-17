@@ -1,0 +1,68 @@
+---
+########################################
+# Update all packages to their latest version
+- name: Update all packages to their latest version
+  apt:
+    name: "*"
+    state: latest
+    force_apt_get: yes
+
+########################################
+# Install required dependencies
+- name: Install dependencies
+  package:
+    name:
+      - ufw
+    state: present
+
+########################################
+# Remove non required dependencies
+- name: Remove non required dependencies
+  apt:
+    autoremove: yes
+
+########################################
+# Install ufw firewall rules.
+- name: Install ufw firewall rules
+  copy:
+    src: game-server.rules
+    dest: /etc/ufw/applications.d/game-server.rules
+    owner: root
+    group: root
+    mode: "0644"
+
+########################################
+# Sometimes it is desirable to let us know when traffic is being
+# denied, rather than simply ignoring it. In these cases, use
+# reject instead of deny. In addition, log rejected connections:
+- ufw:
+    rule: reject
+    port: auth
+    log: yes
+
+########################################
+# Configure UFW.
+- name: Apply UFW rules
+  ufw:
+    rule: allow
+    name: "{{ item }}"
+  loop:
+    - AdminSSSHAccess
+    - AdminCockpitAccess
+    - MinecarftService
+    - Battlefield2Service
+
+########################################
+# Configure UFW
+# - name: Configure UFW
+#   ufw:
+#     rule: "{{ item.rule }}"
+#     proto: "{{ item.protocol }}"
+#     to_port: "{{ item.port }}"
+#     comment: "{{ item.comment }}"
+#   with_items:
+#     - { rule: allow, protocol: tcp, port: "22", comment: "SSH access for administrators" }
+#     - { rule: allow, protocol: tcp, port: "9090", comment: "HTTPS port for cockpit" }
+#     - { rule: allow, protocol: tcp, port: "25565", comment: "TCP port for minecraft" }
+#     - { rule: allow, protocol: tcp, port: "1024:1124,4711,29900-29901,29920", comment: "Battlefield2 TCP ports" }
+#     - { rule: allow, protocol: tcp, port: "1024:1124,1500-4999,16567,27900,28910,29900,55123:55125", comment: "Battlefield2 UDP ports" }
